@@ -1,5 +1,6 @@
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
+import { useState } from "react";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 import {
   Table,
   TableBody,
@@ -7,27 +8,47 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "./ui/table";
+} from "../ui/table";
 import { Eye, Pencil, Trash2 } from "lucide-react";
+import { AddEditTeacherDialog } from "../Add-Teacher";
 
-export function StudentTable() {
-  const students = [
+export default function StaffManagement() {
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [selectedStaff, setSelectedStaff] = useState(null);
+
+  const staffMembers = [
     {
       id: 1,
-      name: "John Tripathi",
+      name: "John Doe",
       image: "/placeholder.svg",
-      class: "XI",
-      rollNumber: "27",
-      studentId: "05000321",
+      department: "Administration",
+      position: "Principal",
+      joiningDate: "01/07/2018",
+      employeeId: "S001",
     },
-    // Add more students as needed
+    {
+      id: 2,
+      name: "Jane Smith",
+      image: "/placeholder.svg",
+      department: "Human Resources",
+      position: "HR Manager",
+      joiningDate: "15/03/2019",
+      employeeId: "S002",
+    },
+    // Add more staff members as needed
   ];
 
+  const handleEdit = (staff: any) => {
+    setSelectedStaff(staff);
+    setEditDialogOpen(true);
+  };
+
   return (
-    <div className="space-y-4">
+    <div className="p-6 space-y-4">
+      <h1 className="text-2xl font-bold">Staff Management</h1>
       <div className="flex items-center justify-between">
         <div className="relative flex-1 max-w-sm">
-          <Input placeholder="Search Student" className="pl-8" />
+          <Input placeholder="Search Staff" className="pl-8" />
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500"
@@ -44,10 +65,6 @@ export function StudentTable() {
           </svg>
         </div>
         <div className="flex items-center gap-4">
-          <Button className="bg-[#F7B614] text-black hover:bg-[#e5a913]">
-            + ADD
-          </Button>
-          <Button variant="outline">SHIFTS</Button>
           <Button variant="outline">DOWNLOAD</Button>
           <Button variant="outline">IMPORT</Button>
         </div>
@@ -57,41 +74,45 @@ export function StudentTable() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Sl No.</TableHead>
               <TableHead>Name</TableHead>
-              <TableHead>Class</TableHead>
-              <TableHead>Roll number</TableHead>
+              <TableHead>Department</TableHead>
+              <TableHead>Position</TableHead>
+              <TableHead>Joining Date</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {students.map((student) => (
-              <TableRow key={student.id}>
-                <TableCell>{student.id}.</TableCell>
+            {staffMembers.map((staff) => (
+              <TableRow key={staff.id}>
                 <TableCell>
                   <div className="flex items-center gap-3">
                     <img
-                      src={student.image || "/placeholder.svg"}
-                      alt={student.name}
+                      src={staff.image || "/placeholder.svg"}
+                      alt={staff.name}
                       width={40}
                       height={40}
                       className="rounded-full"
                     />
                     <div>
-                      <div>{student.name}</div>
+                      <div>{staff.name}</div>
                       <div className="text-sm text-gray-500">
-                        ID: {student.studentId}
+                        ID: {staff.employeeId}
                       </div>
                     </div>
                   </div>
                 </TableCell>
-                <TableCell>{student.class}</TableCell>
-                <TableCell>{student.rollNumber}</TableCell>
+                <TableCell>{staff.department}</TableCell>
+                <TableCell>{staff.position}</TableCell>
+                <TableCell>{staff.joiningDate}</TableCell>
                 <TableCell className="text-right">
                   <Button variant="ghost" size="icon">
                     <Eye className="h-4 w-4 text-[#F7B614]" />
                   </Button>
-                  <Button variant="ghost" size="icon">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => handleEdit(staff)}
+                  >
                     <Pencil className="h-4 w-4 text-[#F7B614]" />
                   </Button>
                   <Button variant="ghost" size="icon">
@@ -103,6 +124,13 @@ export function StudentTable() {
           </TableBody>
         </Table>
       </div>
+
+      <AddEditTeacherDialog
+        mode="edit"
+        open={editDialogOpen}
+        onOpenChange={setEditDialogOpen}
+        defaultValues={selectedStaff}
+      />
     </div>
   );
 }

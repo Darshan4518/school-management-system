@@ -1,15 +1,19 @@
 import "rc-steps/assets/index.css";
 import { InputField } from "../components/InputField";
-import { ProgressStepper } from "../components/ProgressStepper";
 import { Link } from "react-router";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/select";
 
 const SetupAccount = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-4">
       <div className="mx-auto max-w-4xl my-10">
         <h1 className="mb-6 text-3xl font-bold">Setup your Account</h1>
-        <ProgressStepper currentStep={3} />
-
         <form className="grid grid-cols-2 gap-4">
           <InputField label="First Name" type="text" />
           <InputField label="Last Name" type="text" />
@@ -19,7 +23,18 @@ const SetupAccount = () => {
             className="col-span-2"
           />
           <InputField label="Phone Number" type="tel" className="col-span-2" />
-          <InputField label="User Role" type="text" className="col-span-2" />
+          <Select>
+            <SelectTrigger className="w-[180px] col-span-2 ">
+              <SelectValue placeholder="Role" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Admin">Admin</SelectItem>
+              <SelectItem value="Teacher">Teacher</SelectItem>
+              <SelectItem value="Accountent">Accountent</SelectItem>
+              <SelectItem value="Student">Student</SelectItem>
+              <SelectItem value="Parent">Parent</SelectItem>
+            </SelectContent>
+          </Select>
           <InputField label="Password" type="password" className="col-span-2" />
         </form>
 

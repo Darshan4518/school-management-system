@@ -15,12 +15,6 @@ export function Header() {
       </div>
 
       <div className="flex items-center space-x-6">
-        <div className="text-sm">
-          <span className="text-gray-500">Free Trial - </span>
-          <span className="text-[#F7B614]">30 Days Trial</span>
-          <button className="ml-4 text-blue-600">Buy Now</button>
-        </div>
-
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
             <img
